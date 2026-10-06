@@ -1,0 +1,56 @@
+# Cloudflare Workers configuration for Microsoft Teams MCP Server
+
+name = "teams-mcp-server"
+main = "src/worker.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Worker settings
+# Wrangler will handle TypeScript compilation automatically
+
+# Environment variables
+[vars]
+MCP_SERVER_NAME = "teams-mcp-server"
+MCP_SERVER_VERSION = "1.0.0"
+NODE_ENV = "production"
+PORT = "3003"
+
+# Secrets (use: wrangler secret put <SECRET_NAME>)
+# MICROSOFT_CLIENT_ID
+# MICROSOFT_CLIENT_SECRET
+# MICROSOFT_REDIRECT_URI
+# MICROSOFT_TENANT_ID
+# FRONTEND_URL
+# BACKEND_API_URL (optional - for token fallback from profile.settings.oauth_tokens)
+
+# KV Namespaces for session storage
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "ced6ef1b0a744a49bde82278141ee215"
+
+# Durable Objects for stateful session management (optional, for advanced use)
+# [[durable_objects.bindings]]
+# name = "TEAMS_SESSIONS"
+# class_name = "TeamsSessionManager"
+
+# Routes (optional - uncomment and configure if using custom domain)
+# routes = [
+#   { pattern = "teams-mcp.zerotwo.app/*", zone_name = "zerotwo.app" }
+# ]
+
+# Development settings
+[env.development]
+vars = { NODE_ENV = "development", MCP_SERVER_NAME = "teams-mcp-server", MCP_SERVER_VERSION = "1.0.0", PORT = "3003" }
+
+[[env.development.kv_namespaces]]
+binding = "SESSIONS"
+id = "ced6ef1b0a744a49bde82278141ee215"
+
+# Production settings
+[env.production]
+vars = { NODE_ENV = "production", MCP_SERVER_NAME = "teams-mcp-server", MCP_SERVER_VERSION = "1.0.0", PORT = "3003" }
+
+[[env.production.kv_namespaces]]
+binding = "SESSIONS"
+id = "ced6ef1b0a744a49bde82278141ee215"
+
